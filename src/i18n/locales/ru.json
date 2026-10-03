@@ -1586,7 +1586,16 @@
     "weekday_wed": "Ср",
     "weekday_thu": "Чт",
     "weekday_fri": "Пт",
-    "weekday_sat": "Сб"
+    "weekday_sat": "Сб",
+    "ledger": "Список",
+    "cards": "Карточки",
+    "show_emails": "Показать почту",
+    "hide_emails": "Скрыть почту",
+    "weekly_remaining": "Остаток за неделю",
+    "summary_loaded": "Загружено {{loaded}} из {{count}} аккаунтов",
+    "connect_title": "Подключите аккаунты",
+    "connect_description": "Добавьте два аккаунта Claude и два Codex через OAuth. Каждый вход сохраняется отдельно.",
+    "connect_accounts": "Подключить аккаунты"
   },
   "plugin_management": {
     "title": "Управление плагинами",

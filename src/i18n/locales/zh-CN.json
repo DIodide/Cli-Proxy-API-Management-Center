@@ -1581,7 +1581,16 @@
     "weekday_wed": "三",
     "weekday_thu": "四",
     "weekday_fri": "五",
-    "weekday_sat": "六"
+    "weekday_sat": "六",
+    "ledger": "列表",
+    "cards": "卡片",
+    "show_emails": "显示邮箱",
+    "hide_emails": "隐藏邮箱",
+    "weekly_remaining": "每周剩余额度",
+    "summary_loaded": "已加载 {{loaded}} / {{count}} 个账户",
+    "connect_title": "连接账户",
+    "connect_description": "通过 OAuth 登录连接两个 Claude 和两个 Codex 账户。每次登录单独保存。",
+    "connect_accounts": "连接账户"
   },
   "plugin_management": {
     "title": "插件管理",

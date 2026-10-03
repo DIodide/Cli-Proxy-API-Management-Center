@@ -1,3 +1,5 @@
+> **DIodide fork:** Dark theme and quota ledger by default, with Claude/Codex pool summaries and masked account names. [Mac mini setup and usage](https://github.com/DIodide/CLIProxyAPI/blob/main/deploy/macos/README.md).
+
 <div align="center">
 
 <img src="./logo.jpg" alt="CLI Proxy API" width="144">

@@ -24,6 +24,7 @@ import type { AuthFileItem, ResolvedTheme } from '@/types';
 import { getQuotaCacheKey } from '@/utils/quota/identity';
 import { ProviderTabs } from '@/features/authFiles/components/ProviderTabs';
 import { QuotaHeader } from './components/QuotaHeader';
+import { QuotaSummary } from './components/QuotaSummary';
 import { QuotaCard } from './components/QuotaCard';
 import { QuotaTimeline } from './components/QuotaTimeline';
 import {
@@ -50,6 +51,7 @@ import type { QuotaProviderType } from './providers/types';
 import { useDevinQuotaAutoLoad } from './providers/devin/useDevinQuotaAutoLoad';
 import { useQuotaActions } from './hooks/useQuotaActions';
 import { useQuotaBatchLoader } from './hooks/useQuotaBatchLoader';
+import { maskQuotaIdentity } from './summary';
 import { readQuotaUiState, writeQuotaUiState } from './uiState';
 import styles from './QuotaPage.module.scss';
 
@@ -60,7 +62,6 @@ const SKELETON_CARD_COUNT = 6;
  * Existing providers display filenames; Devin's card and timeline share an
  * identity-aware display label. Keep the filename fallback stable for memoization.
  */
-const displayNameFor = (name: string) => name;
 
 export function QuotaPage() {
   const { t } = useTranslation();
@@ -76,6 +77,12 @@ export function QuotaPage() {
   );
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
+  const [ledger, setLedger] = useState(true);
+  const [showEmails, setShowEmails] = useState(false);
+  const displayNameFor = useCallback(
+    (name: string) => (showEmails ? name : maskQuotaIdentity(name)),
+    [showEmails]
+  );
   const searchInputRef = useRef<HTMLInputElement>(null);
   // 页头 + tabs 的入场级联（标题 → meta → 动作 → tabs，级差 70ms）
   const revealRef = useRevealGroup<HTMLDivElement>();
@@ -362,6 +369,17 @@ export function QuotaPage() {
               </button>
             )}
           </div>
+          <Button variant="secondary" size="sm" onClick={() => setShowEmails(!showEmails)}>
+            {t(showEmails ? 'quota_management.hide_emails' : 'quota_management.show_emails')}
+          </Button>
+          <Button
+            variant="secondary"
+            size="sm"
+            onClick={() => setLedger(!ledger)}
+            aria-pressed={ledger}
+          >
+            {t(ledger ? 'quota_management.ledger' : 'quota_management.cards')}
+          </Button>
           <div className={styles.sort}>
             <Select
               value={sortMode}
@@ -372,6 +390,8 @@ export function QuotaPage() {
             />
           </div>
         </div>
+
+        <QuotaSummary entries={filteredEntries} quotaFor={getQuota} resolvedTheme={resolvedTheme} />
 
         {error && (
           <div className={styles.errorBanner} role="alert">
@@ -414,11 +434,13 @@ export function QuotaPage() {
             }
           />
         ) : (
-          <div className={styles.grid}>
+          <div className={ledger ? styles.ledger : styles.grid}>
             {pageItems.map((entry, index) => (
               <QuotaCard
                 key={`${entry.type}:${getQuotaCacheKey(entry.file)}`}
                 entry={entry}
+                ledger={ledger}
+                showEmails={showEmails}
                 quota={getQuota(entry)}
                 resolvedTheme={resolvedTheme}
                 canRefresh={canUseActions && !entry.file.disabled}

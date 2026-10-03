@@ -1,0 +1,113 @@
+.summary {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  background: var(--bg-primary);
+  overflow: hidden;
+  margin: 6px 0 20px;
+}
+.provider {
+  padding: 24px;
+  min-width: 0;
+  & + & {
+    border-left: 1px solid var(--border-color);
+  }
+  header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  header img {
+    width: 22px;
+    height: 22px;
+  }
+  header span {
+    margin-left: auto;
+    color: var(--text-tertiary);
+    font-size: 13px;
+  }
+  p {
+    color: var(--text-tertiary);
+    font-size: 13px;
+    margin: 18px 0 8px;
+  }
+}
+.value {
+  font-size: 34px;
+  font-weight: 650;
+  letter-spacing: -1px;
+  font-variant-numeric: tabular-nums;
+  small {
+    color: var(--text-tertiary);
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 0;
+  }
+}
+.segments {
+  display: flex;
+  gap: 5px;
+  margin-top: 16px;
+}
+.track {
+  flex: 1;
+  height: 5px;
+  background: var(--bg-tertiary);
+  border-radius: 5px;
+  overflow: hidden;
+  span {
+    display: block;
+    height: 100%;
+    border-radius: inherit;
+  }
+}
+.high {
+  background: var(--viz-success);
+}
+.medium {
+  background: var(--quota-medium-color);
+}
+.low {
+  background: var(--viz-failure);
+}
+.connect {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 20px 0;
+  h2 {
+    font-size: 18px;
+    margin: 0 0 8px;
+  }
+  p {
+    color: var(--text-secondary);
+    max-width: 58ch;
+    line-height: 1.6;
+  }
+  a {
+    flex-shrink: 0;
+    color: var(--text-primary);
+    padding: 12px 16px;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    &:focus-visible {
+      outline: 2px solid var(--success-color);
+      outline-offset: 3px;
+    }
+  }
+}
+@media (max-width: 640px) {
+  .summary {
+    grid-template-columns: 1fr;
+  }
+  .provider + .provider {
+    border-left: 0;
+    border-top: 1px solid var(--border-color);
+  }
+  .connect {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
