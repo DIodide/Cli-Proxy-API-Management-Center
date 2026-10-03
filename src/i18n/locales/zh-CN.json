@@ -525,6 +525,8 @@
     "credit_balance_label": "Credit 余额",
     "credit_unlimited": "无限额",
     "reset_credits_label": "主动重置次数",
+    "reset_credits_available": "{{count}} 次可用",
+    "reset_credits_unknown": "未报告",
     "reset_credits_expiry_label": "主动重置过期时间（{{timezone}}）",
     "reset_credit_number": "第 {{index}} 次",
     "reset_credits_expiry_failed": "主动重置过期时间获取失败：{{message}}",

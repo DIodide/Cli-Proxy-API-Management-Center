@@ -527,6 +527,8 @@
     "credit_balance_label": "Credit balance",
     "credit_unlimited": "Unlimited",
     "reset_credits_label": "Manual resets",
+    "reset_credits_available": "{{count}} available",
+    "reset_credits_unknown": "Not reported",
     "reset_credits_expiry_label": "Manual reset expiry ({{timezone}})",
     "reset_credit_number": "Reset {{index}}",
     "reset_credits_expiry_failed": "Failed to load manual reset expiry: {{message}}",

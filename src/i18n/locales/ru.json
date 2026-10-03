@@ -530,6 +530,8 @@
     "credit_balance_label": "Остаток кредитов",
     "credit_unlimited": "Без ограничений",
     "reset_credits_label": "Ручные сбросы",
+    "reset_credits_available": "Доступно: {{count}}",
+    "reset_credits_unknown": "Нет данных",
     "reset_credits_expiry_label": "Срок действия ручных сбросов ({{timezone}})",
     "reset_credit_number": "Сброс {{index}}",
     "reset_credits_expiry_failed": "Не удалось загрузить срок действия ручных сбросов: {{message}}",

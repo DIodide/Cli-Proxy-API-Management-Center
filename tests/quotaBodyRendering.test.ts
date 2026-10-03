@@ -136,6 +136,51 @@ describe('CodexQuotaBody', () => {
     expect(markup).toMatch(/11 days/);
   });
 
+  test.each([0, 2, 3])('keeps %s banked resets visible in their own section', (count) => {
+    const markup = renderToStaticMarkup(
+      createElement(CodexQuotaBody, {
+        quota: { ...quota, rateLimitResetCreditsAvailableCount: count },
+        classes,
+      })
+    );
+    expect(markup).toContain('aria-label="Manual resets"');
+    expect(markup).toContain(`${count} available`);
+  });
+
+  test('distinguishes an unreported bank from zero available resets', () => {
+    const markup = renderToStaticMarkup(
+      createElement(CodexQuotaBody, {
+        quota: {
+          ...quota,
+          rateLimitResetCreditsAvailableCount: null,
+          rateLimitResetCredits: [],
+          rateLimitResetCreditsError: 'Provider unavailable',
+        },
+        classes,
+      })
+    );
+    expect(markup).toContain('aria-label="Manual resets"');
+    expect(markup).toContain('Not reported');
+    expect(markup).toContain('Provider unavailable');
+    expect(markup).not.toContain('0 available');
+  });
+
+  test('retains the banked count when expiry lookup fails', () => {
+    const markup = renderToStaticMarkup(
+      createElement(CodexQuotaBody, {
+        quota: {
+          ...quota,
+          rateLimitResetCreditsAvailableCount: 2,
+          rateLimitResetCredits: [],
+          rateLimitResetCreditsError: 'Expiry unavailable',
+        },
+        classes,
+      })
+    );
+    expect(markup).toContain('2 available');
+    expect(markup).toContain('Expiry unavailable');
+  });
+
   test('highlights a credit expiring within the final hour', () => {
     const creditFirst: CodexQuotaState = {
       ...quota,
