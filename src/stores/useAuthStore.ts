@@ -9,6 +9,7 @@ import type { AuthState, LoginCredentials, ConnectionStatus } from '@/types';
 import { STORAGE_KEY_AUTH } from '@/utils/constants';
 import { obfuscatedStorage } from '@/services/storage/secureStorage';
 import { apiClient } from '@/services/api/client';
+import { probeTailnetSession } from '@/services/api/tailnetSession';
 import { LegacyBackendError, probeLegacyBackend } from '@/services/api/legacyBackendProbe';
 import { useConfigStore } from './useConfigStore';
 import { useModelsStore } from './useModelsStore';
@@ -47,6 +48,18 @@ export const useAuthStore = create<AuthStoreState>()(
         if (restoreSessionPromise) return restoreSessionPromise;
 
         restoreSessionPromise = (async () => {
+          if (await probeTailnetSession(window.location.origin)) {
+            try {
+              await get().login({
+                apiBase: window.location.origin,
+                managementKey: '',
+                rememberPassword: false,
+              });
+              return true;
+            } catch {
+              return false;
+            }
+          }
           obfuscatedStorage.migratePlaintextKeys(['apiBase', 'apiUrl', 'managementKey']);
 
           const wasLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
@@ -171,9 +184,14 @@ export const useAuthStore = create<AuthStoreState>()(
       checkAuth: async () => {
         const { managementKey, apiBase } = get();
 
-        if (!managementKey || !apiBase) {
+        if (!apiBase) {
           return false;
         }
+        if (
+          !managementKey &&
+          (apiBase !== window.location.origin || !(await probeTailnetSession(apiBase)))
+        )
+          return false;
 
         try {
           // 重新配置客户端
